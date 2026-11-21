@@ -28,7 +28,7 @@ jobs:
       - name: Install latest Capacitor and create Android project
         run: |
           npm init -y
-          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest
+          npm install @capacitor/core@latest @capacitor/cli@latest @capacitor/android@latest @capacitor/app@latest @capacitor/geolocation@latest
           npx cap init "Emergency Number" com.mehedi.emergencynumber --web-dir www
           npx cap add android
           npx cap sync android
