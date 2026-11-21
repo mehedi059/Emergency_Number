@@ -10,6 +10,8 @@ Bangla and English. Works without internet. No permissions needed.
 - Division and district dropdown (version 1 has Rajshahi)
 - Search by name or number, in Bangla or English
 - Saved numbers, dark mode, language switch
+- Back button goes to home first, then exits the app
+- Send my location by SMS button (GPS works without internet)
 
 ## Files (all flat, no folders needed)
 | File | Purpose |
@@ -27,6 +29,7 @@ Bangla and English. Works without internet. No permissions needed.
 ## Update the data
 Open `data.js` and edit or add entries.
 - Add a number: `{ b: "বাংলা নাম", e: "English name", p: "01XXXXXXXXX" }`
+- Add an upazila or thana number: add `u: { b: "উপজেলা", e: "Upazila" },` at the start of the item. It appears under the upazila dropdown.
 - Add a district: copy the Rajshahi block inside `districts` and change names and items. Divisions and dropdowns appear automatically.
 - Only use numbers published on official government websites. Do not add personal numbers.
 
