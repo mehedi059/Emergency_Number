@@ -144,22 +144,29 @@
     render();
     if (el.dataset.fav) main.scrollTop = top;
   });
+  function plug(n) {
+    var C = window.Capacitor;
+    if (!C || (C.isNativePlatform && !C.isNativePlatform())) return null;
+    try { return (C.Plugins && C.Plugins[n]) || (C.registerPlugin && C.registerPlugin(n)); } catch (e) { return null; }
+  }
   function shareLoc() {
-    var P = window.Capacitor && window.Capacitor.Plugins;
+    var G = plug("Geolocation");
     function send(p) {
       var body = (S.lang === "bn" ? "আমি বিপদে আছি। আমার অবস্থান: " : "I need help. My location: ") +
         "https://maps.google.com/?q=" + p.coords.latitude.toFixed(6) + "," + p.coords.longitude.toFixed(6);
       window.location.href = "sms:?body=" + encodeURIComponent(body);
     }
     function fail() { alert(t("locfail")); }
-    if (P && P.Geolocation) {
-      P.Geolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 15000 }).then(send).catch(fail);
+    if (G) {
+      G.requestPermissions().then(function () {
+        return G.getCurrentPosition({ enableHighAccuracy: true, timeout: 15000 });
+      }).then(send).catch(fail);
     } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(send, fail, { enableHighAccuracy: true, timeout: 15000 });
     } else fail();
   }
 
-  var AppPlugin = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+  var AppPlugin = plug("App");
   if (AppPlugin && AppPlugin.addListener) {
     AppPlugin.addListener("backButton", function () {
       if (S.tab === "home" && !S.cat && !S.q) AppPlugin.exitApp();
