@@ -33,6 +33,12 @@ jobs:
           npx cap add android
           npx cap sync android
 
+      - name: Add location permission to the Android manifest
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          grep -q ACCESS_FINE_LOCATION $M || sed -i 's|</manifest>|    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n</manifest>|' $M
+          grep -n "uses-permission" $M
+
       - name: Set app icon from icon.png
         run: |
           sudo apt-get update
